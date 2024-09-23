@@ -120,8 +120,11 @@ public class Main {
         System.out.println();
 
         System.out.print("Student who pays the most - ");
-        Student st = StudentAccounting.WhoPaysTheMost(students);
-        System.out.println(st.getLastname() + ": " + st.getHostel() + " " + st.getRoom() + " " + st.getPrice());
+        Optional<Student> st = StudentAccounting.WhoPaysTheMost(students);
+        if(st.isPresent())
+            System.out.println(st.get().getLastname() + ": " + st.get().getHostel() + " " + st.get().getRoom() + " " + st.get().getPrice());
+        else
+            System.out.println("No student found");
 
     }
 
@@ -224,14 +227,13 @@ public class Main {
             return rooms;
         }
 
-        public static Student WhoPaysTheMost(List<Student> students)
+        public static Optional<Student> WhoPaysTheMost(List<Student> students)
         {
             return Optional
                     .ofNullable(students)
                     .orElse(Collections.emptyList())
                     .stream()
-                    .max(Comparator.comparing(st -> st.getPrice()))
-                    .orElse(null);
+                    .max(Comparator.comparing(st -> st.getPrice()));
         }
     }
 }
