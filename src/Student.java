@@ -1,15 +1,18 @@
-import java.util.Collection;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+import java.util.Set;
 import java.util.HashSet;
 
-public class Student
+public class Student implements Comparable<Student>
 {
     private String firstname;
     private String lastname;
     private String hostel;
     private int roomNumber;
     private double price;
-    private int age;
-    private Collection<String> privileges;
+    private Integer age;
+    private Set<String> privileges;
 
     public Student(
             String firstname,
@@ -17,7 +20,7 @@ public class Student
             String hostel,
             int roomNumber,
             double price,
-            int age
+            Integer age
     )
     {
         this.firstname = firstname;
@@ -54,9 +57,30 @@ public class Student
         return roomNumber;
     }
     public double getPrice() {return price;}
-    public int getAge()
+    public Integer getAge()
     {
         return age;
     }
-    public Collection<String> getPrivileges() {return privileges;}
+    public Set<String> getPrivileges() {return privileges;}
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return roomNumber == student.roomNumber && Double.compare(price, student.price) == 0 && Objects.equals(firstname, student.firstname) && Objects.equals(lastname, student.lastname) && Objects.equals(hostel, student.hostel) && Objects.equals(age, student.age) && Objects.equals(privileges, student.privileges);
+    }
+
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstname, lastname, hostel, roomNumber, price, age, privileges);
+    }
+
+    @Override
+    public int compareTo(@NotNull Student o) {
+        return age.compareTo(o.age);
+    }
 }
